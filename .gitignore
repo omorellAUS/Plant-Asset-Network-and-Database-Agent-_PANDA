@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.env
+logs/
+my_knowledge_base/*.tmp
+.DS_Store
