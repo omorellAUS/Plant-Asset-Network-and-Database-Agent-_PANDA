@@ -1,10 +1,11 @@
 # PANDA – Plant Asset Network & Database Agent
+
 **Concept Brief Version 1.0 | April 2026**  
-Prepared for BHP Shutdown & Major Maintenance Improvement
+Prepared for Shutdowns & Major Maintenance Improvement
 
-## 1. Problem Statement
+### 1. Problem Statement
 
-During shutdowns and major maintenance, a large volume of valuable asset knowledge is generated in the field: real-time problem-solving, informal discussions, red-pen markups on work instructions, annotated drawings, spare-part usage notes, and observations captured in Webex coordination calls.
+During shutdowns and major maintenance, a large amount of valuable asset knowledge is generated in the field — real-time problem solving, informal discussions, red-pen markups on work instructions, annotated drawings, spare-part usage notes, and observations captured during Webex coordination calls.
 
 Much of this information is verbal or exists only as transient field notes. Once the shutdown ends, it is rarely captured in a structured, persistent, and accessible form. Planning and reliability teams are then forced to rely on incomplete SAP records, personal memory, or tribal knowledge that fades with roster changes.
 
@@ -16,15 +17,15 @@ This results in:
 
 The core issue is the systematic loss of execution reality between field delivery and future planning cycles.
 
-## 2. Mission Statement
+### 2. Mission Statement
 
 PANDA ensures the organisation never has to relearn the same operational lessons twice.
 
-It does not make decisions, automatically update systems, or replace human judgement. PANDA acts as a persistent, non-forgetful knowledge bridge between field execution and future planning. It captures what actually occurred during shutdowns and presents it in a clear, traceable form for human review.
+PANDA acts as a persistent knowledge bridge between field execution and future planning. It captures what actually occurred during shutdowns and presents it in a clear, traceable form for human review.
 
 **Success criterion:** A planner can prepare the next shutdown without having to ask “does anyone remember what we did last time?”
 
-## 3. What PANDA Is — and What It Is Not
+### 3. What PANDA Is — and What It Is Not
 
 **PANDA is:**
 - A listening and organising layer between shutdown execution and future planning
@@ -33,13 +34,13 @@ It does not make decisions, automatically update systems, or replace human judge
 
 **PANDA is not:**
 - An automation tool that removes human judgement
-- A system that automatically updates CMMS, BOMs, asset registers, or maintenance plans
+- A system that automatically updates SAP, BOMs, asset registers, or maintenance plans
 - A replacement for planners, reliability engineers, or governance processes
 - A decision-maker
 
 Human judgement remains mandatory at every step. PANDA only highlights patterns, inconsistencies, and observations. Every output is reviewable, traceable, and subject to human verification.
 
-## 4. Design Principles
+### 4. Design Principles
 
 1. Outputs must be short, clear, and immediately usable.
 2. Human judgement is mandatory — PANDA flags evidence only.
@@ -49,7 +50,7 @@ Human judgement remains mandatory at every step. PANDA only highlights patterns,
 6. Low friction for the field — use tools already in daily use (Webex, red-pen markups, photos, spare-part logs).
 7. Total transparency — nothing is hidden or interpreted silently.
 
-## 5. Capabilities
+### 5. Capabilities
 
 PANDA can:
 - Collect execution notes, discussions, observations, photos, and markups from Webex, Fiori, Sphera, and field records.
@@ -60,58 +61,40 @@ PANDA can:
 
 All outputs remain subject to human review and approval.
 
-## 6. Example Outputs
+### 6. Example Outputs
 
-**Example 1 – Work Execution Reality Check**  
+**Work Execution Reality Check**  
 Asset: CV203 Drive Pulley  
 Observation: Bearing housing clearance differs from work instruction — arm interferes with standard removal method.  
 Supporting evidence: Webex discussion (timestamp) + annotated work instruction.  
 Status: Previously observed; no documented change in SAP.
 
-**Example 2 – Bill of Materials Mismatch**  
+**Bill of Materials Mismatch**  
 Asset class: Conveyor Head Pulley Drives  
 Component: Bearing housing size  
 Repeated substitution detected: Observed 6 times over 2 shutdowns.  
 Note: Larger housing required due to skid modification.  
 Candidate change flagged for review.
 
-**Example 3 – Temporary Modification**  
+**Temporary Modification**  
 Finding: Motor gearbox torque reaction arm modification observed repeatedly.  
 Documentation not updated on drawings or job plans.  
 Impact: Repeat modification required, adding time to scope.
 
-## 7. Success Metrics
+### 7. Success Metrics
 
 - Planners stop asking “does anyone remember what we did last time?”
 - Execution issues appear consistently in planning conversations.
 - Field personnel see their observations persist beyond the shutdown.
 - Repeated surprises during execution decrease over time.
 
-## 8. Data Source Confidence Levels
+### 8. Data Source Confidence Levels
 
-| Data Source                  | Characteristics                  | Confidence Level |
-|-----------------------------|----------------------------------|------------------|
-| Single chat message         | Contextual, unverified           | Low             |
-| Repeated Webex discussions  | Pattern forming                  | Medium          |
-| Annotated drawings / photos | Tangible evidence                | High            |
-| Repeated over multiple shutdowns | Persistent reality          | Strong          |
+| Data Source                     | Characteristics               | Confidence Level |
+|--------------------------------|-------------------------------|------------------|
+| Single chat message            | Contextual, unverified        | Low             |
+| Repeated Webex discussions     | Pattern forming               | Medium          |
+| Annotated drawings / photos    | Tangible evidence             | High            |
+| Repeated over multiple shutdowns | Persistent reality         | Strong          |
 
 Human verification can manually adjust confidence scores.
-
----
-
-### Next Actions for You
-
-1. Create the new file **`CONCEPT_BRIEF.md`** in the root of your repo and paste the content above.
-2. Commit and push it to GitHub.
-
-Once that is done, reply with **“CONCEPT_BRIEF added”** and I will give you the next major upgrade:
-
-- Updated `app.py` that better reflects the concept brief (accountability flags, change tracking language, confidence levels, etc.)
-- A basic structure for logging observations with confidence scores
-
-Do you want me to also update the README.md to link to the new CONCEPT_BRIEF.md?
-
-Just say **“CONCEPT_BRIEF added, update README too”** or simply **“CONCEPT_BRIEF added”** and we continue.
-
-Let’s keep building this properly. Your move.
