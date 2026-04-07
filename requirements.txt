@@ -1,0 +1,13 @@
+ollama
+langgraph
+langchain
+langchain-community
+llama-index
+llama-index-llms-ollama
+llama-index-embeddings-huggingface
+chromadb
+gradio
+pandas
+requests
+python-dotenv
+openpyxl
