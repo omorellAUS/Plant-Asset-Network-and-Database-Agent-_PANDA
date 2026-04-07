@@ -1,38 +1,87 @@
-# PANDA - Plant Asset and Network Database Agent
+# PANDA – Plant Asset Network & Database Agent
 
 **Plant Asset and Network Database Agent (PANDA)**  
-Built Plant — Maintenance & Reliability
+**Version 1.0 | April 2026**  
+Built for Shutdown & Major Maintenance Improvement
 
-A local, truth-seeking AI agent that automatically captures job data from Webex, Fiori (SAP), Sphera, Field Leadership and other systems to build and maintain an accurate, living picture of plant assets.
+### The Problem
 
-### Why PANDA Exists
-Maintenance teams currently rely on people manually updating BOMs, reliability trends, materials, work practices and specifications.  
-Most recommendations from meetings and field talks are never actioned, leading to outdated data and repeated problems.
+During shutdowns and major maintenance, a huge amount of valuable asset knowledge is generated in the field — real-time problem solving, red-pen markups, annotated drawings, spare-part usage notes, and observations from Webex calls.
 
-PANDA fixes this by:
-1. **Holding people accountable** — logs exactly what was discussed/recommended vs what was actually actioned in SAP/Sphera.
-2. **Forcing system changes** — detects un-actioned items and generates clear accountability reports.
-3. **Making maintenance life easier** — simple chat interface to instantly get the current BOM, recent changes, reliability trends, and source links.
-4. **Acting as a living library & training tool** — indexes all historical data and teaches users how to navigate Fiori, Webex, Sphera, etc.
+Most of this knowledge is verbal or exists only as transient notes. Once the shutdown ends, it disappears. Planning and reliability teams are left with incomplete SAP records and fading tribal knowledge.
 
-### Core Features (Current + Planned)
-- **Blunt truth-seeking engine** — cold facts only, pushes back on inconsistencies, always cites sources.
-- **Change tracking** — before/after views for BOMs, materials, specifications and work practices.
-- **Accountability engine** — flags recommendations that were discussed but not actioned (with names, dates, links).
-- **Living asset profiles** — real-time updated view of assets with reliability trends and previous known conditions.
-- **Gradio Web UI** — clean browser-based chat interface (no terminal).
-- **Local-only** — runs 100% on your NVIDIA GPU desktop. Your data never leaves the machine.
-- **RAG knowledge base** — drop internal standards, manuals, VA reports, etc. for accurate referencing.
+This leads to:
+- Repeated discovery of the same issues outage after outage
+- Increased cognitive load on planners and reliability engineers
+- Reduced confidence in planning data
+- Frustration when known problems reappear without evidence of action
 
-### Repository
-**https://github.com/omorellAUS/Plant-Asset-Network-and-Database-Agent-_PANDA**
+The core issue is not lack of effort — it is the systematic loss of execution reality between field delivery and future planning cycles.
+
+### Mission
+
+PANDA ensures the organisation never has to relearn the same operational lessons twice.
+
+PANDA acts as a **persistent knowledge bridge** between field execution and future planning. It captures what actually happened during shutdowns and makes it visible, traceable, and usable for the next cycle.
+
+**Success criterion:** A planner can prepare the next shutdown without asking “does anyone remember what we did last time?”
+
+### What PANDA Is — and What It Is Not
+
+**PANDA is:**
+- A listening and organising layer between field execution and future planning
+- A non-forgetful scribe with pattern-recognition capability
+- A decision-support tool that aggregates evidence
+
+**PANDA is not:**
+- An automation tool that removes human judgement
+- A system that automatically updates SAP, BOMs, or maintenance plans
+- A replacement for planners, reliability engineers, or governance processes
+- A decision-maker
+
+Human judgement remains mandatory. PANDA only highlights patterns, inconsistencies, and observations. Every output is reviewable, traceable, and subject to human verification.
+
+### Design Principles
+
+1. Outputs must be short, clear, and immediately usable.
+2. Human judgement is mandatory — PANDA flags evidence only.
+3. Evidence over authority — repeated field observations carry more weight than hierarchy or opinion.
+4. Capture reality as it appears — do not force field data into idealised structures.
+5. Memory, not automation — the problem is forgetting, not inefficiency.
+6. Low friction for the field — use tools already in daily use (Webex, photos, markups, spare-part logs).
+7. Total transparency — nothing is hidden or interpreted silently.
+
+### Core Capabilities
+
+- Collect observations from Webex, Fiori exports, Sphera permits, field notes, photos, and markups
+- Group similar issues across jobs, assets, or shutdowns
+- Highlight differences between planned work and actual execution
+- Produce short, structured summaries for planners and reliability teams
+- Flag repeated issues and un-actioned items with transparent confidence levels
+
+All outputs remain subject to human review and approval.
+
+### Example Outputs
+
+**Work Execution Reality Check**  
+Asset: CV203 Drive Pulley  
+Observation: Bearing housing clearance differs from work instruction — arm interferes with standard removal method.  
+Evidence: Webex discussion (timestamp) + annotated work instruction.  
+Status: Previously observed; no documented change in SAP.
+
+**Bill of Materials Mismatch**  
+Asset class: Conveyor Head Pulley Drives  
+Component: Bearing housing size  
+Repeated substitution detected: Observed 6 times over 2 shutdowns.  
+Note: Larger housing required due to skid modification.  
+Candidate change flagged for review.
 
 ### Tech Stack
-- Python 3.12
-- Ollama + NVIDIA GPU acceleration
-- LangGraph (researcher + critic debate loop)
-- LlamaIndex + Chroma (local RAG)
-- Gradio (web UI)
+
+- Python 3.12 + Ollama (NVIDIA GPU accelerated)
+- LangGraph + LlamaIndex (local RAG)
+- Gradio (clean local web interface)
+- Runs 100% locally on your desktop — your data never leaves the machine
 
 ### Quick Start (Windows + NVIDIA GPU)
 
