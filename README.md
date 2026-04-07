@@ -2,7 +2,7 @@
 
 **Plant Asset and Network Database Agent (PANDA)**  
 **Version 1.0 | April 2026**  
-Built for BHP Shutdown & Major Maintenance Improvement
+Built for Shutdowns & Major Maintenance Improvement
 
 ### The Problem
 
