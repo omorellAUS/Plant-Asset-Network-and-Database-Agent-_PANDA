@@ -8,16 +8,12 @@ from system_prompt import SYSTEM_PROMPT
 
 load_dotenv()
 
-# Configuration for your hardware
 DATA_DIR = "./my_knowledge_base"
 
-# Use local embeddings
 Settings.embed_model = HuggingFaceEmbedding(model_name="nomic-embed-text")
 
 def get_query_engine():
-    """Load RAG from knowledge base folder"""
     if not os.path.exists(DATA_DIR) or not os.listdir(DATA_DIR):
-        print("Warning: my_knowledge_base folder is empty. Add your documents.")
         return None
     documents = SimpleDirectoryReader(DATA_DIR).load_data()
     index = VectorStoreIndex.from_documents(documents)
@@ -25,93 +21,85 @@ def get_query_engine():
 
 query_engine = get_query_engine()
 
-# LLM setup - Optimized for your 12GB GPU + 32GB RAM using qwen3:8b
+# Optimized for your desktop (12GB GPU + 32GB RAM)
 llm = ChatOllama(
     model="qwen3:8b",
-    temperature=0.1,      # Low temperature = more factual and consistent
-    num_gpu=999,          # Full GPU offload
-    num_ctx=8192,         # Large context window (your RAM can handle it)
-    verbose=False
+    temperature=0.1,
+    num_gpu=999,
+    num_ctx=8192
 )
 
-def panda_agent(message: str, history):
-    """Main PANDA reasoning loop"""
-    # Get relevant context from your knowledge base
+def panda_agent(message: str):
+    """Core PANDA reasoning function"""
     rag_text = str(query_engine.query(message)) if query_engine else "No documents loaded in my_knowledge_base yet."
 
-    # Build the full prompt with context
     full_input = f"""
 User Query: {message}
 
 Relevant Context from Knowledge Base:
 {rag_text}
-
-Respond using the full PANDA system rules. Be blunt, factual, and always include source references where possible.
 """
 
-    # Get response from the model using the strict system prompt
     response = llm.invoke([
         SystemMessage(content=SYSTEM_PROMPT),
         HumanMessage(content=full_input)
     ])
-
     return response
 
-# ====================== GRADIO WEB UI ======================
+# ====================== Gradio Web UI ======================
 with gr.Blocks(
     title="PANDA - Plant Asset Truth Agent",
-    theme=gr.themes.Soft(),
-    css="""
-    .chatbot { height: 680px; }
-    """
+    theme=gr.themes.Soft()
 ) as demo:
     
     gr.Markdown("""
-    # PANDA - Plant Asset and Network Database Agent
-    **Central Nervous System for BHP Maintenance & Reliability**  
-    Blunt • Factual • Accountability-Driven • Evidence-Based
+    # PANDA
+    **Plant Asset and Network Database Agent**  
+    Persistent knowledge bridge between field execution and future planning
     """)
 
     chatbot = gr.Chatbot(
-        height=680,
+        height=700,
         label="PANDA Chat",
-        show_copy_button=True
+        show_copy_button=True,
+        avatar_images=(None, "🛠️")
     )
 
     msg = gr.Textbox(
-        placeholder="Example: Summarise all changes discussed for Pump XYZ in this week's Webex and check if they were actioned in Fiori. Flag any accountability gaps.",
+        placeholder="Example: Summarise execution reality for CV203 Drive Pulley from recent Webex and flag any un-actioned items",
         label="Ask PANDA",
         lines=2
     )
 
     with gr.Row():
+        submit_btn = gr.Button("Send", variant="primary")
         clear_btn = gr.Button("Clear Chat")
-        upload_btn = gr.File(label="Upload files (Webex notes, Fiori exports, photos, etc.)", file_count="multiple")
+        upload_btn = gr.File(label="Upload files (Webex notes, photos, Fiori exports, etc.)", file_count="multiple")
 
     def respond(message, chat_history):
-        if not message.strip():
+        if not message or not message.strip():
             return "", chat_history
-        bot_message = panda_agent(message, chat_history)
+        bot_message = panda_agent(message)
         chat_history.append((message, bot_message))
         return "", chat_history
 
     def clear_history():
         return []
 
+    submit_btn.click(respond, [msg, chatbot], [msg, chatbot])
     msg.submit(respond, [msg, chatbot], [msg, chatbot])
     clear_btn.click(clear_history, None, chatbot)
 
     gr.Markdown("""
-    **How to use PANDA:**
-    • Drop Webex notes, Fiori work order exports, Sphera permits, VA reports, photos, manuals, and drawings into the `my_knowledge_base` folder.  
-    • Ask questions about asset changes, accountability, reliability trends, or training on systems.  
-    • PANDA will always cite sources and flag un-actioned items.
+    **How to use PANDA**  
+    Drop Webex notes, Fiori exports, Sphera permits, photos, VA reports, manuals and drawings into the `my_knowledge_base` folder.  
+    PANDA will highlight patterns, discrepancies and un-actioned items with transparent confidence levels.  
+    All outputs are for human review only.
     """)
 
-# Launch the UI
 demo.launch(
     server_name="127.0.0.1",
     server_port=7860,
     share=False,
-    inbrowser=True   # Automatically opens browser
+    inbrowser=True
 )
