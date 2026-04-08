@@ -26,4 +26,4 @@ For licensing inquiries, commercial rights, or enterprise deployment agreements,
 
 ---
 
-This licence is not open source. All rights are explicitly reserved.
+This licence is currently not open source. Any requests for academic use are subject to permission granted by the creator. All rights are explicitly reserved.
