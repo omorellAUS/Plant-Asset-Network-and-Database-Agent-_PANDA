@@ -1,6 +1,6 @@
 # PANDA - Plant Asset Network & Database Agent
 
-**Plant Asset Truth Agent** — A local, fully private AI system designed to capture and preserve real field execution knowledge during BHP shutdowns and major maintenance activities.
+**Plant Asset Truth Agent** — A local, fully private AI system designed to capture and preserve real field execution knowledge during shutdowns and major maintenance activities.
 
 ### Mission
 PANDA ensures the organisation never has to re-learn the same operational lessons twice. It acts as a persistent, factual "central nervous system" for maintenance and reliability by turning transient field data (Webex discussions, photos, red-pen markups, spare parts notes, observations) into a structured, queryable knowledge base.
