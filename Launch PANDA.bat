@@ -1,29 +1,34 @@
 @echo off
-title PANDA - Plant Asset and Network Database Agent
+title PANDA - Plant Asset Truth Agent
 echo ================================================
-echo   Starting PANDA - Plant Asset Truth Agent
+echo   Starting PANDA Desktop Application
 echo   (32GB RAM + 12GB NVIDIA GPU)
 echo ================================================
 
-:: Kill any old Ollama instance to avoid port conflicts
+:: Kill any old Ollama instance
 taskkill /F /IM ollama.exe >nul 2>&1
 
-:: Start Ollama in the background
+:: Start Ollama in background
 start /min ollama serve
 
-:: Wait a few seconds for Ollama to start
+:: Wait for Ollama
 timeout /t 5 >nul
 
-:: Activate venv and launch PANDA
+:: Activate venv and start Gradio backend
 call venv\Scripts\activate.bat
+
+echo Starting Gradio backend...
+start /min python app.py
+
+:: Wait for Gradio to start
+timeout /t 8 >nul
 
 echo.
 echo PANDA is launching...
-echo Open your browser to: http://127.0.0.1:7860
-echo.
-echo (Do not close this window while PANDA is running)
 echo ================================================
 
-python app.py
+:: Launch the Tauri desktop app
+cd src-tauri
+cargo tauri dev
 
 pause
