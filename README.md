@@ -1,69 +1,63 @@
-# PANDA – Plant Asset Network & Database Agent
+# PANDA - Plant Asset Network & Database Agent
 
-**Plant Asset and Network Database Agent (PANDA)**  
-**Version 1.0 | April 2026**  
-Built for Shutdowns & Major Maintenance Improvement
-
-### The Problem
-
-During shutdowns and major maintenance, a large amount of valuable asset knowledge is generated in the field — real-time problem solving, informal discussions, red-pen markups on work instructions, annotated drawings, spare-part usage notes, and observations captured during Webex coordination calls.
-
-Much of this information is verbal or exists only as transient field notes. Once the shutdown ends, it is rarely captured in a structured, persistent, and accessible form. Planning and reliability teams are then forced to rely on incomplete SAP records, personal memory, or tribal knowledge that fades with roster changes.
-
-This results in:
-- Repeated discovery of the same issues across outages
-- Increased cognitive load on planners and reliability engineers
-- Reduced confidence in planning data
-- Frustration when previously identified problems reappear without evidence of action or closure
-
-The core issue is the systematic loss of execution reality between field delivery and future planning cycles.
+**Plant Asset Truth Agent** — A local, fully private AI system designed to capture and preserve real field execution knowledge during BHP shutdowns and major maintenance activities.
 
 ### Mission
+PANDA ensures the organisation never has to re-learn the same operational lessons twice. It acts as a persistent, factual "central nervous system" for maintenance and reliability by turning transient field data (Webex discussions, photos, red-pen markups, spare parts notes, observations) into a structured, queryable knowledge base.
 
-PANDA ensures the organisation never has to relearn the same operational lessons twice.
+It does **not** make decisions or auto-update SAP/Fiori. It only highlights reality, flags accountability gaps, and provides blunt, evidence-based cross-references against standards and technical knowledge.
 
-PANDA acts as a persistent knowledge bridge between field execution and future planning. It captures what actually occurred during shutdowns and presents it in a clear, traceable form for human review.
+### Core Principles
+- Cold facts, raw data, logic only. No morals, no emotion, no "should".
+- Follow the money and primary sources (standards, internal reports, failure data).
+- Push back on weak logic, missing methodology, or cherry-picking.
+- Human-in-the-loop: PANDA highlights — engineers and planners decide.
+- Full data sovereignty: Everything runs locally on your hardware/network. No cloud.
 
-**Success criterion:** A planner can prepare the next shutdown without having to ask “does anyone remember what we did last time?”
+### Knowledge Base Structure
+PANDA uses a multi-folder knowledge base for clean cross-referencing:
 
-### What PANDA Is — and What It Is Not
+- `my_knowledge_base/` → Plant-specific job data (Webex exports, photos, Fiori notes, VA reports, etc.)
+- `standards_library/` → Official standards (API, ASME, ASTM, AS, ISO, etc.)
+- `technical_library/` → Vibration analysis, oil/grease analysis, bearing failure modes, CAT manuals, Mobius materials, reliability engineering references, etc.
+- Additional subfolders can be added as needed.
 
-**PANDA is:**
-- A listening and organising layer between shutdown execution and future planning
-- A non-forgetful scribe with pattern-recognition capability
-- A decision-support and evidence-aggregation tool
+The system automatically indexes everything recursively and can search across folders when asked.
 
-**PANDA is not:**
-- An automation tool that removes human judgement
-- A system that automatically updates SAP, BOMs, asset registers, or maintenance plans
-- A replacement for planners, reliability engineers, or governance processes
-- A decision-maker
+### License
+**All Rights Reserved** — See [LICENSE.md](LICENSE.md)
 
-Human judgement remains mandatory at every step. PANDA only highlights patterns, inconsistencies, and observations. Every output is reviewable, traceable, and subject to human verification.
+No copying, forking, derivative works, or commercial use without explicit written permission from Olly Ross.
 
-### Design Principles
+Commercial licensing or enterprise deployment inquiries: contact Olly Ross directly.
 
-1. Outputs must be short, clear, and immediately usable.
-2. Human judgement is mandatory — PANDA flags evidence only.
-3. Evidence over authority — repeated field observations carry more weight than hierarchy or opinion.
-4. Capture reality as it appears — do not force field data into idealised structures.
-5. Memory, not automation — the problem is forgetting, not inefficiency.
-6. Low friction for the field — use tools already in daily use (Webex, red-pen markups, photos, spare-part logs).
-7. Total transparency — nothing is hidden or interpreted silently.
+### Current Status (April 2026)
+- Local Ollama + Gradio backend (qwen3:8b)
+- Multi-folder RAG knowledge base support
+- Runs on powerful desktop/server with GPU acceleration
+- Field access via browser (iPad Safari, laptops, etc.) over local Wi-Fi
+- Import Shutdown Folder functionality in development
 
-### Core Capabilities
+### Architecture
+- Heavy processing (LLM + RAG) runs on a central server/desktop with good GPU/RAM.
+- Thin clients (iPads, laptops) connect via browser — no heavy local computation required.
+- Designed for 80% iPad usage in the field while maintaining performance and data control.
 
-- Collect execution notes, discussions, observations, photos, and markups from Webex, Fiori, Sphera, and field records.
-- Group similar observations across jobs, assets, or shutdowns.
-- Highlight where actual execution differed from documented plans.
-- Produce short, structured summaries for planners and reliability teams.
-- Flag repeated issues and un-actioned items with transparent confidence levels.
+### How to Run (Current Version)
+1. Double-click `Launch PANDA.bat`
+2. Add files to the appropriate folders in `knowledge_base`
+3. Open the chat interface and query
 
-All outputs remain subject to human review and approval.
+### Roadmap (High Level)
+- Import Shutdown Folder button (scan entire shutdown with multiple Work Orders)
+- Standards + technical library cross-referencing
+- Structured output with accountability gaps and confidence levels
+- Tablet-optimised UI for iPad Safari
+- Server + thin client deployment for plant-wide use
 
-### Quick Start (Windows + NVIDIA GPU)
+---
 
-1. Clone the repo:
-   ```powershell
-   git clone https://github.com/omorellAUS/Plant-Asset-Network-and-Database-Agent-_PANDA.git
-   cd Plant-Asset-Network-and-Database-Agent-_PANDA
+**This is a private, proprietary system.**  
+Unauthorized use or distribution is prohibited.
+
+For licensing or collaboration inquiries, contact the owner.
