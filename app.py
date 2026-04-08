@@ -11,7 +11,6 @@ load_dotenv()
 
 DATA_DIR = "./my_knowledge_base"
 
-# Use fully local embeddings
 Settings.embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 def get_query_engine():
@@ -29,13 +28,12 @@ def get_query_engine():
     print(f"Total files found: {file_count}")
 
     if file_count == 0:
-        print("WARNING: No files found in my_knowledge_base or subfolders.")
-        print("Add PDFs, DOCX, JPG, TXT, etc. and restart Launch PANDA.bat")
+        print("WARNING: No files found.")
         return None
 
     try:
         documents = SimpleDirectoryReader(DATA_DIR, recursive=True).load_data()
-        print(f"Successfully loaded {len(documents)} documents into RAG index.")
+        print(f"Successfully loaded {len(documents)} documents.")
         index = VectorStoreIndex.from_documents(documents)
         return index.as_query_engine()
     except Exception as e:
@@ -53,10 +51,14 @@ llm = ChatOllama(
 
 def panda_agent(message: str):
     if query_engine is None:
-        return "Knowledge base is empty. Please add files to my_knowledge_base (or subfolders) and restart the launcher."
+        return "Knowledge base is empty. Add files to my_knowledge_base and restart."
 
-    rag_text = str(query_engine.query(message))
-    full_input = f"User Query: {message}\n\nRelevant Context from knowledge base:\n{rag_text}"
+    try:
+        rag_text = str(query_engine.query(message))
+    except Exception as e:
+        rag_text = f"RAG error: {e}"
+
+    full_input = f"User Query: {message}\n\nRelevant Context:\n{rag_text}"
 
     response = llm.invoke([
         SystemMessage(content=SYSTEM_PROMPT),
@@ -64,14 +66,13 @@ def panda_agent(message: str):
     ])
     return response.content if hasattr(response, 'content') else str(response)
 
-# Clean Gradio UI - no deprecated parameters
 with gr.Blocks(title="PANDA") as demo:
-    gr.Markdown("# PANDA - Plant Asset Truth Agent\nPersistent knowledge bridge for BHP maintenance")
+    gr.Markdown("# PANDA - Plant Asset Truth Agent")
 
     chatbot = gr.Chatbot(height=700, label="PANDA Chat")
 
     msg = gr.Textbox(
-        placeholder="Example: Summarise the Nyrstar Blower Overhaul and flag any accountability gaps",
+        placeholder="Example: Summarise the Nyrstar Blower Overhaul and flag accountability gaps",
         label="Ask PANDA",
         lines=2
     )
@@ -85,7 +86,7 @@ with gr.Blocks(title="PANDA") as demo:
 
     msg.submit(respond, [msg, chatbot], [msg, chatbot])
 
-    gr.Markdown("**Tip:** Add your files (Webex exports, photos, PDFs, reports) to my_knowledge_base or subfolders. Restart Launch PANDA.bat after adding new files.")
+    gr.Markdown("**Tip:** Files are in my_knowledge_base. Restart Launch PANDA.bat after adding new files.")
 
 demo.launch(
     server_name="127.0.0.1",
