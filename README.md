@@ -17,9 +17,9 @@ It does **not** make decisions or auto-update SAP/Fiori. It only highlights real
 ### Knowledge Base Structure
 PANDA uses a multi-folder knowledge base for clean cross-referencing:
 
-- `my_knowledge_base/` → Plant-specific job data (Webex exports, photos, Fiori notes, VA reports, etc.)
+- `my_knowledge_base/` → Plant-specific job data (Webex exports, photos, SAP notes, Turn around/shutdown, Overhaul reports, etc.)
 - `standards_library/` → Official standards (API, ASME, ASTM, AS, ISO, etc.)
-- `technical_library/` → Vibration analysis, oil/grease analysis, bearing failure modes, CAT manuals, Mobius materials, reliability engineering references, etc.
+- `technical_library/` → job reports, Vibration analysis data, oil/grease analysis, bearing failure modes, plant manuals, material lists, reliability engineering, previous reports etc.
 - Additional subfolders can be added as needed.
 
 The system automatically indexes everything recursively and can search across folders when asked.
