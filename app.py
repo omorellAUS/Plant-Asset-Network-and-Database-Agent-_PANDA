@@ -1,5 +1,6 @@
 import gradio as gr
 import os
+import warnings
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -8,6 +9,10 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from system_prompt import SYSTEM_PROMPT
 
 load_dotenv()
+
+# Suppress noisy warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="langchain_core")
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
 
 DATA_DIR = "./my_knowledge_base"
 
@@ -28,7 +33,7 @@ def get_query_engine():
     print(f"Total files found: {file_count}")
 
     if file_count == 0:
-        print("WARNING: No files found.")
+        print("WARNING: No files found in my_knowledge_base or subfolders.")
         return None
 
     try:
@@ -51,23 +56,26 @@ llm = ChatOllama(
 
 def panda_agent(message: str):
     if query_engine is None:
-        return "Knowledge base is empty. Add files to my_knowledge_base and restart."
+        return "Knowledge base is empty. Add files to my_knowledge_base (or subfolders) and restart the launcher."
 
     try:
         rag_text = str(query_engine.query(message))
     except Exception as e:
-        rag_text = f"RAG error: {e}"
+        rag_text = f"RAG query failed: {e}"
 
-    full_input = f"User Query: {message}\n\nRelevant Context:\n{rag_text}"
+    full_input = f"User Query: {message}\n\nRelevant Context from knowledge base:\n{rag_text}"
 
-    response = llm.invoke([
-        SystemMessage(content=SYSTEM_PROMPT),
-        HumanMessage(content=full_input)
-    ])
-    return response.content if hasattr(response, 'content') else str(response)
+    try:
+        response = llm.invoke([
+            SystemMessage(content=SYSTEM_PROMPT),
+            HumanMessage(content=full_input)
+        ])
+        return response.content if hasattr(response, 'content') else str(response)
+    except Exception as e:
+        return f"LLM error: {e}"
 
 with gr.Blocks(title="PANDA") as demo:
-    gr.Markdown("# PANDA - Plant Asset Truth Agent")
+    gr.Markdown("# PANDA - Plant Asset Truth Agent\nPersistent knowledge bridge for BHP maintenance")
 
     chatbot = gr.Chatbot(height=700, label="PANDA Chat")
 
@@ -86,7 +94,7 @@ with gr.Blocks(title="PANDA") as demo:
 
     msg.submit(respond, [msg, chatbot], [msg, chatbot])
 
-    gr.Markdown("**Tip:** Files are in my_knowledge_base. Restart Launch PANDA.bat after adding new files.")
+    gr.Markdown("**Tip:** Add files to my_knowledge_base (or subfolders). Restart Launch PANDA.bat after adding new files.")
 
 demo.launch(
     server_name="127.0.0.1",
