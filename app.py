@@ -21,7 +21,6 @@ def get_query_engine():
 
 query_engine = get_query_engine()
 
-# Optimized for your desktop (12GB GPU + 32GB RAM)
 llm = ChatOllama(
     model="qwen3:8b",
     temperature=0.1,
@@ -30,13 +29,12 @@ llm = ChatOllama(
 )
 
 def panda_agent(message: str):
-    """Core PANDA reasoning function"""
-    rag_text = str(query_engine.query(message)) if query_engine else "No documents loaded in my_knowledge_base yet."
+    rag_text = str(query_engine.query(message)) if query_engine else "No documents in my_knowledge_base yet."
 
     full_input = f"""
 User Query: {message}
 
-Relevant Context from Knowledge Base:
+Relevant Context:
 {rag_text}
 """
 
@@ -46,60 +44,32 @@ Relevant Context from Knowledge Base:
     ])
     return response
 
-# ====================== Gradio Web UI ======================
-with gr.Blocks(
-    title="PANDA - Plant Asset Truth Agent",
-    theme=gr.themes.Soft()
-) as demo:
-    
-    gr.Markdown("""
-    # PANDA
-    **Plant Asset and Network Database Agent**  
-    Persistent knowledge bridge between field execution and future planning
-    """)
+with gr.Blocks(title="PANDA", theme=gr.themes.Soft()) as demo:
+    gr.Markdown("# PANDA\n**Plant Asset and Network Database Agent**\nPersistent knowledge bridge for BHP maintenance")
 
-    chatbot = gr.Chatbot(
-        height=700,
-        label="PANDA Chat",
-        show_copy_button=True,
-        avatar_images=(None, "🛠️")
-    )
+    chatbot = gr.Chatbot(height=700, label="PANDA Chat", show_copy_button=True)
 
     msg = gr.Textbox(
-        placeholder="Example: Summarise execution reality for CV203 Drive Pulley from recent Webex and flag any un-actioned items",
+        placeholder="Example: Summarise execution reality for CV203 from recent Webex and flag any un-actioned items with confidence levels",
         label="Ask PANDA",
         lines=2
     )
 
     with gr.Row():
         submit_btn = gr.Button("Send", variant="primary")
-        clear_btn = gr.Button("Clear Chat")
-        upload_btn = gr.File(label="Upload files (Webex notes, photos, Fiori exports, etc.)", file_count="multiple")
+        clear_btn = gr.Button("Clear")
 
     def respond(message, chat_history):
-        if not message or not message.strip():
+        if not message.strip():
             return "", chat_history
         bot_message = panda_agent(message)
         chat_history.append((message, bot_message))
         return "", chat_history
 
-    def clear_history():
-        return []
-
     submit_btn.click(respond, [msg, chatbot], [msg, chatbot])
     msg.submit(respond, [msg, chatbot], [msg, chatbot])
-    clear_btn.click(clear_history, None, chatbot)
+    clear_btn.click(lambda: [], None, chatbot)
 
-    gr.Markdown("""
-    **How to use PANDA**  
-    Drop Webex notes, Fiori exports, Sphera permits, photos, VA reports, manuals and drawings into the `my_knowledge_base` folder.  
-    PANDA will highlight patterns, discrepancies and un-actioned items with transparent confidence levels.  
-    All outputs are for human review only.
-    """)
+    gr.Markdown("Drop job files into `my_knowledge_base` folder. PANDA highlights patterns and discrepancies only — human review required.")
 
-demo.launch(
-    server_name="127.0.0.1",
-    server_port=7860,
-    share=False,
-    inbrowser=True
-)
+demo.launch(server_name="127.0.0.1", server_port=7860, inbrowser=True)
