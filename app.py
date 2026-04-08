@@ -10,7 +10,6 @@ load_dotenv()
 
 DATA_DIR = "./my_knowledge_base"
 
-# Changed to a more reliable embedding model
 Settings.embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 def get_query_engine():
@@ -44,7 +43,7 @@ def panda_agent(message: str):
 with gr.Blocks(title="PANDA", theme=gr.themes.Soft()) as demo:
     gr.Markdown("# PANDA\n**Plant Asset and Network Database Agent**\nPersistent knowledge bridge for BHP maintenance")
 
-    chatbot = gr.Chatbot(height=700, label="PANDA Chat", show_copy_button=True)
+    chatbot = gr.Chatbot(height=700, label="PANDA Chat")
 
     msg = gr.Textbox(
         placeholder="Example: Summarise observations from the Nyrstar Hobart blower overhaul and flag any accountability gaps",
@@ -61,7 +60,7 @@ with gr.Blocks(title="PANDA", theme=gr.themes.Soft()) as demo:
 
     msg.submit(respond, [msg, chatbot], [msg, chatbot])
 
-    gr.Markdown("Drop your job files (Webex notes, Fiori exports, photos, VA reports, manuals) into the `my_knowledge_base` folder.")
+    gr.Markdown("**Tip:** Drop your job files (Webex notes, photos, Fiori exports, etc.) into the `my_knowledge_base` folder.")
 
 demo.launch(
     server_name="127.0.0.1",
